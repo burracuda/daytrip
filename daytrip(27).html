@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take A Daytrip - Discography</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root{--background-color:#ffffff;--text-primary:#000000;--text-secondary:#666666;--font-main:"Inter",sans-serif;--item-width:280px;--item-height:280px;--item-gap:30px;--border-color:#e0e0e0;--overlay-bg:rgba(255,255,255,0.95);--transition-speed:0.3s;--border-radius:12px}*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--font-main);background-color:var(--background-color);color:var(--text-primary);overflow-x:hidden;line-height:1.4;animation:fadeIn .5s ease-in-out}@keyframes fadeIn{from{opacity:0}to{opacity:1}}.header{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background:var(--background-color);border-bottom:1px solid var(--border-color)}.logo img{height:28px;width:auto}.view-toggle{background:var(--background-color);border:1px solid var(--border-color);color:var(--text-primary);padding:8px 16px;border-radius:var(--border-radius);cursor:pointer;transition:all var(--transition-speed) ease;font-family:var(--font-main);font-size:14px;font-weight:500}.view-toggle:hover{background:var(--text-primary);color:var(--background-color);transform:translateY(-1px)}.carousel-view{min-height:100vh;display:flex;align-items:center;position:relative;padding-top:80px}.carousel-container{display:flex;overflow-x:auto;overflow-y:hidden;gap:var(--item-gap);padding:60px 40px;width:100%;scroll-behavior:smooth;-ms-overflow-style:none;scrollbar-width:none;-webkit-mask-image:linear-gradient(to right,transparent,black 5%,black 95%,transparent);mask-image:linear-gradient(to right,transparent,black 5%,black 95%,transparent)}.carousel-container::-webkit-scrollbar{display:none}
+
+        /* --- ANIMATION EDIT --- */
+        .carousel-item{
+            flex:0 0 var(--item-width);
+            display:flex;
+            flex-direction:column;
+            cursor:pointer;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother "Framer Motion" like transition */
+            position: relative; /* Needed for z-index to work */
+        }
+
+        /* --- ANIMATION EDIT --- */
+        .carousel-item:hover{
+            transform: translateY(-4px) scale(1.05); /* Combined lift and 5% scale effect */
+            z-index: 10; /* Ensures the hovered item layers on top of others */
+        }
+
+        .album-cover{width:var(--item-width);height:var(--item-height);background-color:#f0f0f0;background-size:cover;background-position:center;border-radius:var(--border-radius);margin-bottom:16px;transition: all var(--transition-speed) ease;box-shadow:0 4px 20px rgba(0,0,0,.08)}.item-info{text-align:left}.item-title{font-weight:600;font-size:16px;margin-bottom:4px;color:var(--text-primary)}.item-artist{font-size:14px;color:var(--text-secondary)}.index-view{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--overlay-bg);backdrop-filter:blur(10px);z-index:200;opacity:0;visibility:hidden;transition:all var(--transition-speed) ease;padding:100px 40px 40px;overflow-y:auto}.index-view.active{opacity:1;visibility:visible}.index-grid{display:grid;grid-template-columns:1fr;gap:20px;max-width:900px;margin:0 auto}.release-group{background:#fff;padding:20px;border-radius:var(--border-radius);box-shadow:0 4px 20px rgba(0,0,0,.05)}.release-header{display:flex;align-items:center;gap:15px;margin-bottom:10px}.release-thumbnail{width:80px;height:80px;border-radius:8px;flex-shrink:0;background-color:#f0f0f0;background-size:cover;background-position:center}.release-info .title{font-weight:600;font-size:18px}.release-info .artist{color:var(--text-secondary)}.track-list{list-style:none;padding:0;margin:15px 0 0 0}.track-list li{padding:10px 0;border-top:1px solid #f0f0f0;color:var(--text-secondary)}.close-btn{position:fixed;top:30px;right:40px;z-index:210;background:#fff;border:1px solid var(--border-color);color:var(--text-primary);width:40px;height:40px;border-radius:50%;cursor:pointer;transition:all var(--transition-speed) ease;font-family:serif;font-size:24px;line-height:40px;padding:0;text-align:center}.close-btn:hover{background:var(--text-primary);color:var(--background-color);transform:scale(1.05)}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="https://64.media.tumblr.com/fbaac6c418b3efe867fc896e29c8d863/973a2b545611b06c-91/s1280x1920/3f91e5bd659bcb37148ef07764e633c6212aac19.png" alt="Take A Daytrip Logo">
+        </div>
+        <button class="view-toggle" id="viewToggle">View All</button>
+    </header>
+    <main class="carousel-view" id="carouselView">
+        <div class="carousel-container" id="carouselContainer"></div>
+    </main>
+    <div class="index-view" id="indexView">
+        <button class="close-btn" id="closeBtn">&times;</button>
+        <div class="index-grid" id="indexGrid"></div>
+    </div>
+    <script>
+        // --- DATA SOURCE ---
+        const discographyData = [
+            {
+                "title": "Designer Baby", "artist": "Elestee & Take A Daytrip", "type": "Single", "releaseDate": "2025-08-28",
+                "albumArtUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0e/d9/91/0ed9912a-0a28-1e3d-0af2-b685e878148a/25UM1IM19662.rgb.jpg/1000x1000bb.jpg", "tracks": ["Designer Baby"]
+            },
+            {
+                "title": "Genesis", "artist": "Tommy Genesis", "type": "Album", "releaseDate": "2025-07-25",
+                "albumArtUrl": "https://is1-ssl.mzstatic.com/image/thumb/Video221/v4/1c/e8/c8/1ce8c812-2211-150f-a81c-5edc2dd93c3a/Jobe1cb833f-39a8-4879-bc5e-fd6cbae414e7-195740332-PreviewImage_Preview_Image_Intermediate_nonvideo_sdr_383442726_2223062406-Time1750862296054.png/592x592bb.webp",
+                "tracks": ["Homebound", "Archetype", "Genesis", "Rainbow Child", "Amor", "2 Wolves", "Farewell", "Gabriel", "Eve ate the apple", "Rumi", "She's Teaching", "Butterflies & Diamond Chains"]
+            },
+            {
+                "title": "All Life Long", "artist": "Juice WRLD", "type": "Single", "releaseDate": "2025-07-11",
+                "albumArtUrl": "https://i.scdn.co/image/ab67616d0000b273773d138a4e607efd8c1610cd", "tracks": ["All Life Long"]
+            },
+            { 
+                "title": "Girl's Girl", "artist": "Tommy Genesis", "type": "Single", "releaseDate": "2025-07-11", "albumArtUrl": "",
+                "showInCarousel": false, "tracks": ["Girl's Girl"]
+            },
+            { 
+                "title": "Loops", "artist": "Tommy Genesis", "type": "Single", "releaseDate": "2025-07-04", "albumArtUrl": "",
+                "showInCarousel": false, "tracks": ["Loops"]
+            },
+            {
+                "title": "At Peace", "artist": "Karan Aujla & Ikky", "type": "Single", "releaseDate": "2025-06-26",
+                "albumArtUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4f/d6/06/4fd60662-385f-cfc4-e73c-2832ebd58d2d/5021732829061.jpg/1000x1000bb.jpg", "tracks": ["At Peace"]
+            },
+            { 
+                "title": "True Blue", "artist": "Tommy Genesis", "type": "Single", "releaseDate": "2025-06-20", "albumArtUrl": "",
+                "showInCarousel": false, "tracks": ["True Blue"]
+            },
+            {
+                "title": "Al Chile", "artist": "Ruzzi", "type": "Single", "releaseDate": "2025-06-04",
+                "albumArtUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/65/51/60/65516064-e6c3-79c8-1312-01b001be0bda/199350582202.jpg/1000x1000bb.jpg", "tracks": ["Al Chile"]
+            },
+            {
+                "title": "PERVERSA", "artist": "PEDRO SAMPAIO, J Balvin & Take A Daytrip", "type": "Single", "releaseDate": "2025-05-29",
+                "albumArtUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/fd/4e/79/fd4e79d2-0f2a-505d-2aa9-2e14c0fa2b64/5021732498076.jpg/1000x1000bb.jpg", "tracks": ["PERVERSA"]
+            },
+            {
+                "title": "AEROMOÇA", "artist": "Xamã, Flora Matos", "type": "Single", "releaseDate": "2025-05-29",
+                "albumArtUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9c/14/c9/9c14c9e9-f375-affa-f374-6e50d24a8bed/ec829409-5244-4406-aa24-1e66249097aa.jpg/1000x1000bb.jpg", "tracks": ["AEROMOÇA"]
+            },
+            {
+                "title": "Baby are you okay?", "artist": "Tommy Genesis", "type": "Single", "releaseDate": "2025-05-23",
+                "albumArtUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/30/fe/be/30febe69-616a-7a31-1c9c-a2f6461abff0/196873123547.jpg/1000x1000bb.jpg", "tracks": ["Baby are you okay?"]
+            },
+            {
+                "title": "SORRY RACH!", "artist": "Stormzy", "type": "Single", "releaseDate": "2025-05-07",
+                "albumArtUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4f/cf/e6/4fcfe61c-0347-08e3-25e3-c1474ee1331d/25UMGIM56548.rgb.jpg/1000x1000bb.jpg", "tracks": ["SORRY RACH!"]
+            },
+            {
+                "title": "X n The City", "artist": "Jordan Adetunji", "type": "Single", "releaseDate": "2025-05-01",
+                "albumArtUrl": "https://i.scdn.co/image/ab67616d0000b273c5b0e46a5685c7f1c465c0bf", "tracks": ["X n The City"]
+            },
+            {
+                "title": "Story", "artist": "Fireboy DML & Take A Daytrip", "type": "Single", "releaseDate": "2025-04-23",
+                "albumArtUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c2/cf/17/c2cf17ff-8dd8-6da4-762e-752b0cbe08d9/199316054620_cover.jpg/1000x1000bb.jpg", "tracks": ["Story"]
+            },
+            {
+                "title": "WAVY MARATHON", "artist": "Clouded Chris", "type": "Single", "releaseDate": "2025-04-22",
+                "albumArtUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ec/86/6a/ec866ab9-f064-cd1f-4878-f444339692ee/artwork.jpg/1000x1000bb.jpg", "tracks": ["WAVY MARATHON"]
+            },
+            {
+                "title": "LEAN ON MY BODY", "artist": "Lil Nas X", "type": "Single", "releaseDate": "2025-03-28",
+                "albumArtUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ae/9a/5b/ae9a5b21-ae89-171d-5a58-48ee7ebc00e8/196872974737.jpg/1000x1000bb.jpg", "tracks": ["LEAN ON MY BODY"]
+            },
+            {
+                "title": "New York New Jersey Theme", "artist": "FIFA Sound, Take A Daytrip", "type": "Single", "releaseDate": "2025-03-16",
+                "albumArtUrl": "https://i.scdn.co/image/ab67616d0000b27343e2ab19868a7daef429c7c0", "tracks": ["New York New Jersey Theme"]
+            },
+            {
+                "title": "HOTBOX", "artist": "Lil Nas X", "type": "Single", "releaseDate": "2025-03-14",
+                "albumArtUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e4/2a/3c/e42a3cb2-c585-7608-3e68-c326755e05b1/196872975772.jpg/1000x1000bb.jpg", "tracks": ["HOTBOX"]
+            }
+        ];
+
+        // --- APPLICATION LOGIC ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeApp(discographyData);
+        });
+
+        function initializeApp(releases) {
+            const carouselContainer = document.getElementById('carouselContainer');
+            const indexGrid = document.getElementById('indexGrid');
+            const viewToggle = document.getElementById('viewToggle');
+            const closeBtn = document.getElementById('closeBtn');
+            const indexView = document.getElementById('indexView');
+            let isIndexViewActive = false;
+
+            // Render Carousel with FILTERED releases
+            const carouselReleases = releases.filter(r => r.showInCarousel !== false);
+            carouselReleases.forEach(release => {
+                const carouselItem = document.createElement('div');
+                carouselItem.className = 'carousel-item';
+                carouselItem.innerHTML = `
+                    <div class="album-cover" style="background-image: url(${release.albumArtUrl})"></div>
+                    <div class="item-info">
+                        <div class="item-title">${release.title}</div>
+                        <div class="item-artist">${release.artist}</div>
+                    </div>`;
+                carouselContainer.appendChild(carouselItem);
+            });
+
+            // Render Index View with CHRONOLOGICALLY SORTED data
+            function renderIndex() {
+                indexGrid.innerHTML = ''; // Clear previous content
+                
+                // Sort all releases by date, newest first
+                const sortedReleases = releases.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
+
+                // Loop through the single, sorted list and create a card for each
+                sortedReleases.forEach(release => {
+                    const releaseGroup = document.createElement('div');
+                    releaseGroup.className = 'release-group';
+
+                    const tracks = release.tracks || [release.title];
+                    let tracksHtml = tracks.map(track => `<li>${track}</li>`).join('');
+
+                    releaseGroup.innerHTML = `
+                        <div class="release-header">
+                            <div class="release-thumbnail" style="background-image: url(${release.albumArtUrl})"></div>
+                            <div class="release-info">
+                                <div class="title">${release.title}</div>
+                                <div class="artist">${release.artist}</div>
+                            </div>
+                        </div>
+                        <ul class="track-list">${tracksHtml}</ul>`;
+                    indexGrid.appendChild(releaseGroup);
+                });
+            }
+            
+            renderIndex(); // Initial render of the index view content
+
+            // --- NAVIGATION LOGIC ---
+            function toggleView() {
+                isIndexViewActive = !isIndexViewActive;
+                indexView.classList.toggle('active', isIndexViewActive);
+                document.body.style.overflow = isIndexViewActive ? 'hidden' : '';
+            }
+            
+            viewToggle.addEventListener('click', toggleView);
+            closeBtn.addEventListener('click', toggleView);
+        }
+    </script>
+</body>
+</html>
