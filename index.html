@@ -4,27 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Take A Daytrip - Discography</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- FONT CHANGE: Import Poppins with weights 400, 500, 600 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root{--background-color:#ffffff;--text-primary:#000000;--text-secondary:#666666;--font-main:"Inter",sans-serif;--item-width:280px;--item-height:280px;--item-gap:30px;--border-color:#e0e0e0;--overlay-bg:rgba(255,255,255,0.95);--transition-speed:0.3s;--border-radius:12px}*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--font-main);background-color:var(--background-color);color:var(--text-primary);overflow-x:hidden;line-height:1.4;animation:fadeIn .5s ease-in-out}@keyframes fadeIn{from{opacity:0}to{opacity:1}}.header{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background:var(--background-color);border-bottom:1px solid var(--border-color)}.logo img{height:28px;width:auto}.view-toggle{background:var(--background-color);border:1px solid var(--border-color);color:var(--text-primary);padding:8px 16px;border-radius:var(--border-radius);cursor:pointer;transition:all var(--transition-speed) ease;font-family:var(--font-main);font-size:14px;font-weight:500}.view-toggle:hover{background:var(--text-primary);color:var(--background-color);transform:translateY(-1px)}.carousel-view{min-height:100vh;display:flex;align-items:center;position:relative;padding-top:80px}.carousel-container{display:flex;overflow-x:auto;overflow-y:hidden;gap:var(--item-gap);padding:60px 40px;width:100%;scroll-behavior:smooth;-ms-overflow-style:none;scrollbar-width:none;-webkit-mask-image:linear-gradient(to right,transparent,black 5%,black 95%,transparent);mask-image:linear-gradient(to right,transparent,black 5%,black 95%,transparent)}.carousel-container::-webkit-scrollbar{display:none}
-
-        /* --- ANIMATION EDIT --- */
-        .carousel-item{
-            flex:0 0 var(--item-width);
-            display:flex;
-            flex-direction:column;
-            cursor:pointer;
-            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother "Framer Motion" like transition */
-            position: relative; /* Needed for z-index to work */
-        }
-
-        /* --- ANIMATION EDIT --- */
-        .carousel-item:hover{
-            transform: translateY(-4px) scale(1.05); /* Combined lift and 5% scale effect */
-            z-index: 10; /* Ensures the hovered item layers on top of others */
-        }
-
-        .album-cover{width:var(--item-width);height:var(--item-height);background-color:#f0f0f0;background-size:cover;background-position:center;border-radius:var(--border-radius);margin-bottom:16px;transition: all var(--transition-speed) ease;box-shadow:0 4px 20px rgba(0,0,0,.08)}.item-info{text-align:left}.item-title{font-weight:600;font-size:16px;margin-bottom:4px;color:var(--text-primary)}.item-artist{font-size:14px;color:var(--text-secondary)}.index-view{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--overlay-bg);backdrop-filter:blur(10px);z-index:200;opacity:0;visibility:hidden;transition:all var(--transition-speed) ease;padding:100px 40px 40px;overflow-y:auto}.index-view.active{opacity:1;visibility:visible}.index-grid{display:grid;grid-template-columns:1fr;gap:20px;max-width:900px;margin:0 auto}.release-group{background:#fff;padding:20px;border-radius:var(--border-radius);box-shadow:0 4px 20px rgba(0,0,0,.05)}.release-header{display:flex;align-items:center;gap:15px;margin-bottom:10px}.release-thumbnail{width:80px;height:80px;border-radius:8px;flex-shrink:0;background-color:#f0f0f0;background-size:cover;background-position:center}.release-info .title{font-weight:600;font-size:18px}.release-info .artist{color:var(--text-secondary)}.track-list{list-style:none;padding:0;margin:15px 0 0 0}.track-list li{padding:10px 0;border-top:1px solid #f0f0f0;color:var(--text-secondary)}.close-btn{position:fixed;top:30px;right:40px;z-index:210;background:#fff;border:1px solid var(--border-color);color:var(--text-primary);width:40px;height:40px;border-radius:50%;cursor:pointer;transition:all var(--transition-speed) ease;font-family:serif;font-size:24px;line-height:40px;padding:0;text-align:center}.close-btn:hover{background:var(--text-primary);color:var(--background-color);transform:scale(1.05)}
+        /* FONT CHANGE: Update the main font variable */
+        :root{--background-color:#ffffff;--text-primary:#000000;--text-secondary:#666666;--font-main:"Poppins",sans-serif;--item-width:280px;--item-height:280px;--item-gap:30px;--border-color:#e0e0e0;--overlay-bg:rgba(255,255,255,0.95);--transition-speed:0.3s;--border-radius:12px}*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--font-main);background-color:var(--background-color);color:var(--text-primary);overflow-x:hidden;line-height:1.4;animation:fadeIn .5s ease-in-out}@keyframes fadeIn{from{opacity:0}to{opacity:1}}.header{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background:var(--background-color);border-bottom:1px solid var(--border-color)}.logo img{height:28px;width:auto}.view-toggle{background:var(--background-color);border:1px solid var(--border-color);color:var(--text-primary);padding:8px 16px;border-radius:var(--border-radius);cursor:pointer;transition:all var(--transition-speed) ease;font-family:var(--font-main);font-size:14px;font-weight:500}.view-toggle:hover{background:var(--text-primary);color:var(--background-color);transform:translateY(-1px)}.carousel-view{min-height:100vh;display:flex;align-items:center;position:relative;padding-top:80px}.carousel-container{display:flex;overflow-x:auto;overflow-y:hidden;gap:var(--item-gap);padding:60px 40px;width:100%;scroll-behavior:smooth;-ms-overflow-style:none;scrollbar-width:none;-webkit-mask-image:linear-gradient(to right,transparent,black 5%,black 95%,transparent);mask-image:linear-gradient(to right,transparent,black 5%,black 95%,transparent)}.carousel-container::-webkit-scrollbar{display:none}.carousel-item{flex:0 0 var(--item-width);display:flex;flex-direction:column;cursor:pointer;transition:transform .3s cubic-bezier(.25,.8,.25,1);position:relative}.carousel-item:hover{transform:translateY(-4px) scale(1.05);z-index:10}.album-cover{width:var(--item-width);height:var(--item-height);background-color:#f0f0f0;background-size:cover;background-position:center;border-radius:var(--border-radius);margin-bottom:16px;transition:all var(--transition-speed) ease;box-shadow:0 4px 20px rgba(0,0,0,.08)}.item-info{text-align:left}.item-title{font-weight:600;font-size:16px;margin-bottom:4px;color:var(--text-primary)}.item-artist{font-weight:400;font-size:14px;color:var(--text-secondary)}.index-view{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--overlay-bg);backdrop-filter:blur(10px);z-index:200;opacity:0;visibility:hidden;transition:all var(--transition-speed) ease;padding:100px 40px 40px;overflow-y:auto}.index-view.active{opacity:1;visibility:visible}.index-grid{display:grid;grid-template-columns:1fr;gap:20px;max-width:900px;margin:0 auto}.release-group{background:#fff;padding:20px;border-radius:var(--border-radius);box-shadow:0 4px 20px rgba(0,0,0,.05)}.release-header{display:flex;align-items:center;gap:15px;margin-bottom:10px}.release-thumbnail{width:80px;height:80px;border-radius:8px;flex-shrink:0;background-color:#f0f0f0;background-size:cover;background-position:center}.release-info .title{font-weight:600;font-size:18px}.release-info .artist{font-weight:400;color:var(--text-secondary)}.track-list{list-style:none;padding:0;margin:15px 0 0 0}.track-list li{padding:10px 0;border-top:1px solid #f0f0f0;color:var(--text-secondary);font-weight:500}.close-btn{position:fixed;top:30px;right:40px;z-index:210;background:#fff;border:1px solid var(--border-color);color:var(--text-primary);width:40px;height:40px;border-radius:50%;cursor:pointer;transition:all var(--transition-speed) ease;font-family:serif;font-size:24px;line-height:40px;padding:0;text-align:center}.close-btn:hover{background:var(--text-primary);color:var(--background-color);transform:scale(1.05)}
     </style>
 </head>
 <body>
@@ -132,7 +118,6 @@
             const indexView = document.getElementById('indexView');
             let isIndexViewActive = false;
 
-            // Render Carousel with FILTERED releases
             const carouselReleases = releases.filter(r => r.showInCarousel !== false);
             carouselReleases.forEach(release => {
                 const carouselItem = document.createElement('div');
@@ -146,21 +131,14 @@
                 carouselContainer.appendChild(carouselItem);
             });
 
-            // Render Index View with CHRONOLOGICALLY SORTED data
             function renderIndex() {
-                indexGrid.innerHTML = ''; // Clear previous content
-                
-                // Sort all releases by date, newest first
+                indexGrid.innerHTML = '';
                 const sortedReleases = releases.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
-
-                // Loop through the single, sorted list and create a card for each
                 sortedReleases.forEach(release => {
                     const releaseGroup = document.createElement('div');
                     releaseGroup.className = 'release-group';
-
                     const tracks = release.tracks || [release.title];
                     let tracksHtml = tracks.map(track => `<li>${track}</li>`).join('');
-
                     releaseGroup.innerHTML = `
                         <div class="release-header">
                             <div class="release-thumbnail" style="background-image: url(${release.albumArtUrl})"></div>
@@ -174,9 +152,8 @@
                 });
             }
             
-            renderIndex(); // Initial render of the index view content
+            renderIndex();
 
-            // --- NAVIGATION LOGIC ---
             function toggleView() {
                 isIndexViewActive = !isIndexViewActive;
                 indexView.classList.toggle('active', isIndexViewActive);
