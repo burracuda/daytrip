@@ -5,18 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO & Social Sharing -->
-    <title>Take A Daytrip - The Definitive Archive</title>
-    <meta name="description" content="A complete, interactive discography of the production duo Take A Daytrip, from their earliest SoundCloud gems to their latest global hits.">
+    <title>Take A Daytrip</title>
+    <meta name="description" content="The official interactive discography of the production duo Take A Daytrip. Explore their work, from SoundCloud gems to global hits.">
     
     <!-- Favicon & App Icons -->
     <link rel="icon" type="image/png" href="https://64.media.tumblr.com/433e6b479833a3a33aa46ca1eaa129aa/49c64e636adece9d-7c/s75x75_c1/53d2a1fc2ac4854588590f1f660c49656a3a719e.pnj" sizes="32x32">
     <link rel="apple-touch-icon" href="https://64.media.tumblr.com/48d91a06ffa63572d769df75df43f699/49c64e636adece9d-03/s250x400/a9e6606ea872271f6251372af5613373a69d41f2.jpg">
 
     <!-- Open Graph (for Facebook, Discord, etc.) -->
-    <meta property="og:title" content="Take A Daytrip - The Definitive Archive">
-    <meta property="og:description" content="A complete, interactive discography of the production duo Take A Daytrip.">
+    <meta property="og:title" content="Take A Daytrip">
+    <meta property="og:description" content="The official interactive discography.">
     <meta property="og:image" content="https://64.media.tumblr.com/48f6d99837e1109e96729565d9270dce/49c64e636adece9d-12/s1280x1920/e31c9e6282f30d87e57d4c00515bc2652f51b2c2.jpg">
-    <meta property="og:url" content="https://your-website-url.com"> <!-- Replace with your live URL -->
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -43,7 +42,7 @@
         .item-info{text-align:left}.item-title{font-weight:600;font-size:16px;margin-bottom:4px;color:var(--text-primary)}.item-artist{font-weight:400;font-size:14px;color:var(--text-secondary)}
         .index-view{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--overlay-bg);backdrop-filter:blur(10px);z-index:200;opacity:0;visibility:hidden;transition:all var(--transition-speed) ease;padding:100px 40px 40px;overflow-y:auto;overflow-x:hidden;}
         .index-view.active{opacity:1;visibility:visible}
-        .index-grid-container{max-width:1400px;margin:0 auto}
+        .index-grid-container, .about-grid{max-width:1400px;margin:0 auto}
         .index-grid{--grid-columns: 3; display:grid; grid-template-columns:repeat(var(--grid-columns), minmax(0, 1fr)); gap:20px; align-items: start;}
         .grid-item{background:#fff;border-radius:var(--border-radius);padding:16px;box-shadow:0 4px 20px rgba(0,0,0,.05);cursor:pointer}
         .item-header{display:flex;align-items:center;gap:15px; overflow: hidden;}
@@ -65,7 +64,15 @@
         #loadMoreBtn:hover{background:var(--button-blue);color:var(--background-color);}
         #loadMoreBtn:disabled{opacity:0.6;cursor:not-allowed;}
         .fixed-footer{position:fixed;bottom:20px;right:40px;z-index:50;opacity:0.3;transition:opacity .3s ease}.fixed-footer:hover{opacity:1}.fixed-footer a{color:var(--text-secondary);text-decoration:none;margin-left:20px;font-size:14px}.fixed-footer a:hover{color:var(--text-primary)}
-        .about-modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(5px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all var(--transition-speed) ease}.about-modal.active{opacity:1;visibility:visible}.about-content{background:white;padding:50px;border-radius:var(--border-radius);max-width:600px;width:90%;position:relative;box-shadow:0 10px 40px rgba(0,0,0,0.1)}.about-content h2{font-size:28px;font-weight:600;margin-bottom:15px}.about-content p{margin-bottom:10px;line-height:1.7;color:var(--text-secondary); font-size: 16px;}.about-close{position:absolute;top:-15px;right:-15px;}
+        .about-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--overlay-bg);backdrop-filter:blur(10px);z-index:200;opacity:0;visibility:hidden;transition:all var(--transition-speed) ease;display:flex;align-items:center;justify-content:center;padding:40px}
+        .about-modal.active{opacity:1;visibility:visible}
+        .about-modal .about-content{position:relative;display:flex;flex-direction:column;gap:25px;align-items:center;padding:40px;max-width:600px;margin:auto;background:#fff;border-radius:var(--border-radius);box-shadow:0 10px 40px rgba(0,0,0,.1);text-align:center}
+        .about-text{flex-basis:auto}
+        .about-image-container{width:100%;flex-basis:auto;display:flex;justify-content:center;align-items:center}
+        .about-image-container img{max-width:100%;height:auto;border-radius:8px}
+        .about-content h2{font-size:32px;font-weight:600;margin-bottom:15px}
+        .about-content p{margin-bottom:10px;line-height:1.7;color:var(--text-secondary);font-size:16px}
+        .about-modal .close-btn{position:absolute;top:15px;right:15px}
     </style>
 </head>
 <body>
@@ -103,20 +110,24 @@
             <a href="https://twitter.com/takeadaytrip" target="_blank" rel="noopener noreferrer">Twitter</a>
             <a href="https://www.instagram.com/takeadaytrip/" target="_blank" rel="noopener noreferrer">Instagram</a>
             <a href="https://soundcloud.com/takeadaytrip" target="_blank" rel="noopener noreferrer">SoundCloud</a>
-            <a href="https://daytrip.world/" target="_blank" rel="noopener noreferrer">Merchandise</a>
+            <a href="https://no-idle.myshopify.com/" target="_blank" rel="noopener noreferrer">Merch</a>
         </div>
         <div class="about-modal" id="aboutModal">
+            <button class="close-btn" id="aboutCloseBtn" aria-label="Close about modal">&times;</button>
             <div class="about-content">
-                 <button class="close-btn about-close" id="aboutCloseBtn" aria-label="Close about modal">&times;</button>
-                 <h2>Our Vision</h2>
-                 <p>An archive where the distance between artist and audience is zero. A world where every collaboration, single, and B-side is celebrated and discoverable, giving fans the power to explore the full creative journey.</p>
-                 <p>This project is a comprehensive, interactive archive of the musical discography of the production duo Take A Daytrip. All data has been meticulously cross-referenced from official sources to create a definitive resource.</p>
+                 <div class="about-image-container">
+                    <img src="https://64.media.tumblr.com/6631383efc91170061b9e8d7f908ef99/530e84fd41c196f4-bc/s540x810/65c0c0c5bb320471691051e024c2fc4a201cae0f.gifv" alt="Take A Daytrip animated artwork" class="about-image">
+                 </div>
+                 <div class="about-text">
+                    <h2>Our Vision</h2>
+                    <p>Our journey is a constant search. We're chasing new sounds, melding genres, and connecting cultures from across the globe. This isn't just a discography; it's a map of that exploration.</p><p>It's for the collaborators who pushed us, the artists who trusted us, and the fans who came along for the ride.</p>
+                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- CURATED DATA SOURCE (V1.2 - 118 Entries) ---
+        // --- CURATED DATA SOURCE (V1.3 - 117 Entries) ---
         const discographyData = [
             {"title":"Designer Baby","artist":"Elestee & Take A Daytrip","type":"Single","releaseDate":"2025-08-28","albumArtUrl":"https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0e/d9/91/0ed9912a-0a28-1e3d-0af2-b685e878148a/25UM1IM19662.rgb.jpg/1000x1000bb.jpg","credits":"Primary Artist","spotifyUrl":"https://open.spotify.com/track/6N24qh0lNjPDph0rdWDxKK","appleMusicUrl":"https://music.apple.com/us/album/designer-baby-single/1833227647"},
             {"title":"Genesis","artist":"Tommy Genesis","type":"Album","releaseDate":"2025-07-25","albumArtUrl":"https://i.scdn.co/image/ab67616d0000b2733be5fd7d4ac345749ecbd0f4","credits":"Producer","tracklist":["Homebound","Archetype","Genesis","Rainbow Child","Amor","2 Wolves","Farewell","Gabriel","Eve ate the apple","Rumi","She's Teaching","Butterflies & Diamond Chains"],"spotifyUrl":"https://open.spotify.com/album/3s2d2e1aG5Ym6b0yC5k2s","appleMusicUrl":"https://music.apple.com/us/album/genesis/1818207575","youtubeUrl":"https://www.youtube.com/watch?v=pGmR3R44_Qo","videoUrl":"https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/30/42/b2/3042b25b-48c3-8eaf-1c42-e49cd781374e/mzvf_7032637510971348397.720w.h264lc.U.p.m4v"},
@@ -161,15 +172,14 @@
             {"title":"High","artist":"Miley Cyrus","type":"Single","releaseDate":"2020-11-27","albumArtUrl":"https://i.scdn.co/image/ab67616d0000b2738cffb7c6c40759eaf8a5a142","credits":"Producer","spotifyUrl":"https://open.spotify.com/track/2LseyBkPJv7r7wCt2yMEgX","appleMusicUrl":"https://music.apple.com/us/album/high/1541094345?i=1541094635"},
             {"title":"INDUSTRY BABY","artist":"Lil Nas X, Jack Harlow","type":"Single","releaseDate":"2021-07-23","albumArtUrl":"https://i.scdn.co/image/ab67616d0000b273ba26678947112dff3c3158bf","credits":"Producer","spotifyUrl":"https://open.spotify.com/track/27NovPIUIRrOZoCHxABJwK","appleMusicUrl":"https://music.apple.com/us/album/industry-baby-feat-jack-harlow/1576552540?i=1576552565"},
             {"title":"Legends","artist":"Juice WRLD","type":"Single","releaseDate":"2018-06-22","albumArtUrl":"https://i.scdn.co/image/ab67616d0000b273f9061a1abb0b9a27a78c9916","credits":"Producer","spotifyUrl":"https://open.spotify.com/track/1Knctxx9vGZxpZfF66BIEa","appleMusicUrl":"https://music.apple.com/us/album/legends-single/1399849491"},
+            {"title":"Worst Luck","artist":"6LACK","type":"Single","releaseDate":"2016-11-18","albumArtUrl":"https://m.media-amazon.com/images/I/A1qx-r3ydHL._UF1000,1000_QL80_.jpg","credits":"Producer","spotifyUrl":"https://open.spotify.com/track/2wc4wFgsQUDD79jItn4cHs","appleMusicUrl":"https://music.apple.com/us/album/worst-luck/1440897757?i=1440898471"},
             {"title":"Flight 43 (NYC)","artist":"Take A Daytrip","type":"SoundCloud","releaseDate":"2014-01-01","albumArtUrl":"https://i1.sndcdn.com/artworks-000075903071-612ura-t1080x1080.jpg","credits":"Primary Artist","spotifyUrl":"https://soundcloud.com/takeadaytrip/flight-43-nyc"},
-            {"title":"I Don't Mind","artist":"Take A Daytrip & Treez Lowkey","type":"SoundCloud","releaseDate":"2017-02-03","albumArtUrl":"https://i1.sndcdn.com/artworks-000171007594-tlqmic-t500x500.jpg","credits":"Primary Artist","spotifyUrl":"https://soundcloud.com/takeadaytrip/i-dont-mind"},
-            {"title":"Worst Luck (Remix)","artist":"6LACK","type":"SoundCloud","releaseDate":"2017-01-01","albumArtUrl":"https://i1.sndcdn.com/artworks-000199736868-h66f1l-t500x500.jpg","credits":"Remixer","spotifyUrl":"https://soundcloud.com/takeadaytrip/6lack-worst-luck-take-a-daytrip-remix"},
+            {"title":"I Don't Mind","artist":"Take A Daytrip & Treez Lowkey","type":"SoundCloud","releaseDate":"2017-02-03","albumArtUrl":"https://i1.sndcdn.com/artworks-000171007594-tlqmic-t500x500.jpg","credits":"Primary Artist","spotifyUrl":"https://soundcloud.com/takeadaytrip/i-dont-mind"}
         ];
 
         // --- APPLICATION LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             discographyData.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
-            
             const introOverlay = document.getElementById('intro-overlay');
             setTimeout(() => { introOverlay.classList.add('hidden'); }, 500);
             setTimeout(() => { introOverlay.style.display = 'none'; }, 1500);
