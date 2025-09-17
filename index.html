@@ -44,7 +44,7 @@
         .index-view.active{opacity:1;visibility:visible}
         .index-grid-container, .about-grid{max-width:1400px;margin:0 auto}
         .index-grid{--grid-columns: 3; display:grid; grid-template-columns:repeat(var(--grid-columns), minmax(0, 1fr)); gap:20px; align-items: start;}
-        .grid-item{background:#fff;border-radius:var(--border-radius);padding:16px;box-shadow:0 4px 20px rgba(0,0,0,.05);cursor:pointer}
+        .grid-item{background:#fff;border-radius:var(--border-radius);padding:16px;box-shadow:0 4px 20px rgba(0,0,0,.05);cursor:pointer; transition: all var(--transition-speed) ease;}
         .item-header{display:flex;align-items:center;gap:15px; overflow: hidden;}
         .item-thumbnail{width:var(--thumbnail-size, 100px);height:var(--thumbnail-size, 100px);border-radius:8px;flex-shrink:0;background-color:#f0f0f0;background-size:cover;background-position:center; transition: width var(--transition-speed) ease, height var(--transition-speed) ease;}
         .item-details{overflow: hidden; flex-grow: 1;}
@@ -73,6 +73,148 @@
         .about-content h2{font-size:32px;font-weight:600;margin-bottom:15px}
         .about-content p{margin-bottom:10px;line-height:1.7;color:var(--text-secondary);font-size:16px}
         .about-modal .close-btn{position:absolute;top:15px;right:15px}
+        .close-btn-bottom { display: none; }
+
+        /* --- MOBILE-SPECIFIC OPTIMIZATIONS --- */
+        @media (max-width: 768px) {
+            .header { padding: 15px 20px; }
+            .logo img { height: 35px; }
+            
+            /* Carousel becomes a vertical list */
+            .carousel-view {
+                align-items: flex-start;
+                padding-top: 100px;
+            }
+            .carousel-container {
+                flex-direction: column;
+                overflow-x: hidden;
+                overflow-y: auto;
+                gap: 40px;
+                padding: 20px 0;
+                align-items: center;
+                -webkit-mask-image: none;
+                mask-image: none;
+            }
+            .carousel-item {
+                width: 90vw;
+            }
+            .album-cover {
+                height: 90vw; 
+            }
+            .carousel-item.is-expanded {
+                width: 90vw;
+            }
+
+            /* --- REFINED MOBILE GRID VIEW --- */
+            .index-view {
+                padding: 90px 15px 20px;
+            }
+            .index-grid {
+                --grid-columns: 2;
+                gap: 15px;
+            }
+            .grid-item {
+                padding: 0; /* Padding will be on inner elements */
+                background-color: transparent;
+                box-shadow: none;
+                transition: none; /* No transition for mobile expansion */
+            }
+            .item-header {
+                /* Stacks thumbnail on top of text */
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .item-thumbnail {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1 / 1; /* Enforce square shape */
+                margin-bottom: 5px;
+                box-shadow: 0 4px 15px rgba(0,0,0,.1);
+            }
+            .item-details {
+                /* Take full width and add padding */
+                width: 100%;
+                padding: 0 5px;
+            }
+            .item-details .title,
+            .item-details .artist {
+                /* Make text visible and wrap */
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
+                font-size: 14px;
+                line-height: 1.3;
+            }
+            .item-details .title {
+                font-weight: 500;
+            }
+            .item-details .artist {
+                font-size: 12px;
+            }
+            
+            /* Expanded state for mobile grid items */
+            .grid-item.is-expanded {
+                grid-column: 1 / -1; /* Span full width */
+            }
+            .grid-item.is-expanded .item-header {
+                /* On expand, revert to side-by-side like desktop for more info */
+                padding: 12px;
+                background: #fff;
+                border-radius: var(--border-radius);
+                box-shadow: 0 6px 25px rgba(0,0,0,.1);
+                flex-direction: row;
+                align-items: center;
+            }
+            .grid-item.is-expanded .item-thumbnail {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 0;
+            }
+            .grid-item.is-expanded .details-section {
+                padding: 15px;
+                margin: 0 5px;
+            }
+            
+            /* UI Controls */
+            .view-controls {
+                display: none;
+            }
+            .close-btn {
+                top: 20px;
+                right: 20px;
+                z-index: 220;
+            }
+            .close-btn-bottom {
+                display: block;
+                width: 100%;
+                margin: 30px auto 10px;
+                padding: 15px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                border-radius: var(--border-radius);
+                border: none;
+                background-color: var(--text-primary);
+                color: var(--background-color);
+                text-align: center;
+                -webkit-appearance: none;
+            }
+
+            .fixed-footer {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                text-align: center;
+                padding: 40px 20px;
+                opacity: 1;
+            }
+            .fixed-footer a { margin: 0 10px; }
+
+            .about-modal .about-content { padding: 20px; }
+            .about-content h2 { font-size: 24px; }
+            .about-content p { font-size: 14px; }
+        }
     </style>
 </head>
 <body>
@@ -104,6 +246,7 @@
                 <div class="load-more-container" id="loadMoreContainer">
                     <button id="loadMoreBtn">Show More</button>
                 </div>
+                <button class="close-btn-bottom" id="closeBtnBottom">Close</button>
             </div>
         </div>
         <div class="fixed-footer">
@@ -1217,10 +1360,14 @@
         });
 
         function initializeApp(releases) {
+            // --- MOBILE/DESKTOP DETECTION ---
+            const isTouchPrimary = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
             const carouselContainer = document.getElementById('carouselContainer');
             const indexGrid = document.getElementById('indexGrid');
             const viewToggle = document.getElementById('viewToggle');
             const closeBtn = document.getElementById('closeBtn');
+            const closeBtnBottom = document.getElementById('closeBtnBottom');
             const indexView = document.getElementById('indexView');
             const plusBtn = document.getElementById('plus-btn');
             const minusBtn = document.getElementById('minus-btn');
@@ -1296,25 +1443,42 @@
                         <div class="item-artist">${release.artist}</div>
                     </div>`;
                 
-                let actionTimer;
                 const video = carouselItem.querySelector('video');
-                carouselItem.addEventListener('mouseenter', () => {
-                    actionTimer = setTimeout(() => {
-                        carouselItem.classList.add('is-active');
+
+                if (!isTouchPrimary) {
+                    // --- DESKTOP HOVER LOGIC ---
+                    let actionTimer;
+                    carouselItem.addEventListener('mouseenter', () => {
+                        actionTimer = setTimeout(() => {
+                            carouselItem.classList.add('is-active');
+                            if (video) {
+                                carouselItem.classList.add('is-expanded');
+                                video.play().catch(e => {});
+                            }
+                        }, 1500);
+                    });
+                    carouselItem.addEventListener('mouseleave', () => {
+                        clearTimeout(actionTimer);
+                        carouselItem.classList.remove('is-active', 'is-expanded');
                         if (video) {
-                            carouselItem.classList.add('is-expanded');
-                            video.play().catch(e => {});
+                            video.pause();
+                            video.currentTime = 0;
                         }
-                    }, 1500);
-                });
-                carouselItem.addEventListener('mouseleave', () => {
-                    clearTimeout(actionTimer);
-                    carouselItem.classList.remove('is-active', 'is-expanded');
-                    if (video) {
-                        video.pause();
-                        video.currentTime = 0;
-                    }
-                });
+                    });
+                } else {
+                    // --- MOBILE CLICK/TAP LOGIC ---
+                    carouselItem.addEventListener('click', () => {
+                        const isActive = carouselItem.classList.toggle('is-active');
+                        if (video) {
+                            carouselItem.classList.toggle('is-expanded', isActive);
+                            if (isActive) {
+                                video.play().catch(e => {});
+                            } else {
+                                video.pause();
+                            }
+                        }
+                    });
+                }
                 return carouselItem;
             }
 
@@ -1354,20 +1518,21 @@
 
                 gridItem.querySelector('.item-details').appendChild(titleEl);
                 gridItem.querySelector('.item-details').appendChild(artistEl);
-                
-                const isDesktop = window.matchMedia("(hover: hover)").matches;
 
-                if (isDesktop) {
+                if (!isTouchPrimary) {
+                    // --- DESKTOP HOVER LOGIC ---
                     gridItem.addEventListener('mouseenter', () => gridItem.classList.add('is-expanded'));
                     gridItem.addEventListener('mouseleave', () => gridItem.classList.remove('is-expanded'));
                 } else {
+                    // --- MOBILE CLICK/TAP LOGIC ---
                     gridItem.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        const isExpanded = gridItem.classList.contains('is-expanded');
+                        const isCurrentlyExpanded = gridItem.classList.contains('is-expanded');
+                        // Close any other expanded item before opening a new one
                         document.querySelectorAll('.grid-item.is-expanded').forEach(el => {
-                            if (el !== gridItem) el.classList.remove('is-expanded');
+                           if (el !== gridItem) el.classList.remove('is-expanded');
                         });
-                        gridItem.classList.toggle('is-expanded');
+                        gridItem.classList.toggle('is-expanded', !isCurrentlyExpanded);
                     });
                 }
                 return gridItem;
@@ -1391,6 +1556,7 @@
                 document.body.style.overflow = isIndexViewActive ? 'hidden' : 'auto';
             }
             
+            // This listener handles closing expanded grid items when clicking outside
             document.addEventListener('click', (event) => {
                 if (isIndexViewActive && !event.target.closest('.grid-item') && !event.target.closest('.view-controls')) {
                     document.querySelectorAll('.grid-item.is-expanded').forEach(el => el.classList.remove('is-expanded'));
@@ -1399,6 +1565,7 @@
 
             viewToggle.addEventListener('click', toggleView);
             closeBtn.addEventListener('click', toggleView);
+            closeBtnBottom.addEventListener('click', toggleView);
 
             aboutBtn.addEventListener('click', (e) => { e.preventDefault(); aboutModal.classList.add('active'); });
             aboutCloseBtn.addEventListener('click', () => aboutModal.classList.remove('active'));
