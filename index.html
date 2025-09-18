@@ -51,12 +51,22 @@
         .item-details .title{font-weight:600;font-size:16px;color:var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
         .item-details .artist{font-weight:400;color:var(--text-secondary);font-size:14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
         .details-section{max-height:0;overflow:hidden;transition:all var(--transition-speed) ease-in-out; padding-top:0; border-top:1px solid transparent;}
-        .grid-item.is-expanded .details-section{max-height:500px;padding-top:15px; border-top:1px solid #eee;}
+        .grid-item.is-expanded .details-section{max-height:500px;padding-top:15px; border-top:1px solid #eee; overflow-y: auto;}
         .details-section ul{list-style-type:decimal;padding-left:20px;margin:0;}
         .details-section li{padding:8px 0;font-size:14px;color:var(--text-secondary)}
         .details-section .credit-section{padding:0; margin:0;}
         .details-section .credit-item{display:flex;justify-content:space-between;padding:8px 0;font-size:14px}
         .details-section .credit-item .name{font-weight:500;color:var(--text-primary)}
+        
+        /* Cross-Browser Scrollbar Styling */
+        .grid-item.is-expanded .details-section {
+            scrollbar-width: none; /* For Firefox */
+            -ms-overflow-style: none; /* For Internet Explorer and Edge */
+        }
+        .grid-item.is-expanded .details-section::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari, and Opera */
+        }
+
         .view-controls{position:fixed;top:30px;right:100px;z-index:210;display:flex;gap:5px}
         .col-btn{background:#fff;border:1px solid var(--border-color);color:var(--text-primary);width:40px;height:40px;border-radius:50%;cursor:pointer;transition:all .2s ease;font-size:24px;font-weight:500}.col-btn:hover{background-color:var(--button-blue);color:var(--background-color)}.col-btn:disabled{opacity:0.5;cursor:not-allowed}
         .close-btn{position:fixed;top:30px;right:40px;z-index:210;background:#fff;border:1px solid var(--border-color);color:var(--text-primary);width:40px;height:40px;border-radius:50%;cursor:pointer;transition:all var(--transition-speed) ease;font-family:serif;font-size:24px;line-height:40px;padding:0;text-align:center}.close-btn:hover{background-color:var(--button-blue);color:var(--background-color);transform:scale(1.05)}
@@ -80,7 +90,6 @@
             .header { padding: 15px 20px; }
             .logo img { height: 35px; }
             
-            /* Carousel becomes a vertical list */
             .carousel-view {
                 align-items: flex-start;
                 padding-top: 100px;
@@ -105,22 +114,20 @@
                 width: 90vw;
             }
 
-            /* --- REFINED MOBILE GRID VIEW --- */
             .index-view {
                 padding: 90px 15px 20px;
             }
             .index-grid {
                 --grid-columns: 2;
-                gap: 15px;
+                gap: 20px 15px;
             }
             .grid-item {
-                padding: 0; /* Padding will be on inner elements */
-                background-color: transparent;
+                padding: 0;
+                background: transparent;
                 box-shadow: none;
-                transition: none; /* No transition for mobile expansion */
+                transition: none;
             }
             .item-header {
-                /* Stacks thumbnail on top of text */
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
@@ -128,55 +135,25 @@
             .item-thumbnail {
                 width: 100%;
                 height: auto;
-                aspect-ratio: 1 / 1; /* Enforce square shape */
-                margin-bottom: 5px;
-                box-shadow: 0 4px 15px rgba(0,0,0,.1);
+                aspect-ratio: 1 / 1;
+                margin-bottom: 0;
             }
             .item-details {
-                /* Take full width and add padding */
-                width: 100%;
                 padding: 0 5px;
+                width: 100%;
             }
             .item-details .title,
             .item-details .artist {
-                /* Make text visible and wrap */
                 white-space: normal;
-                overflow: visible;
-                text-overflow: clip;
-                font-size: 14px;
-                line-height: 1.3;
             }
-            .item-details .title {
-                font-weight: 500;
-            }
-            .item-details .artist {
-                font-size: 12px;
-            }
+            .item-details .title { font-size: 14px; }
+            .item-details .artist { font-size: 12px; }
             
-            /* Expanded state for mobile grid items */
-            .grid-item.is-expanded {
-                grid-column: 1 / -1; /* Span full width */
-            }
-            .grid-item.is-expanded .item-header {
-                /* On expand, revert to side-by-side like desktop for more info */
-                padding: 12px;
-                background: #fff;
-                border-radius: var(--border-radius);
-                box-shadow: 0 6px 25px rgba(0,0,0,.1);
-                flex-direction: row;
-                align-items: center;
-            }
-            .grid-item.is-expanded .item-thumbnail {
-                width: 100px;
-                height: 100px;
-                margin-bottom: 0;
-            }
             .grid-item.is-expanded .details-section {
-                padding: 15px;
-                margin: 0 5px;
+                padding: 10px 5px;
+                border-top: none;
             }
             
-            /* UI Controls */
             .view-controls {
                 display: none;
             }
@@ -250,6 +227,7 @@
             </div>
         </div>
         <div class="fixed-footer">
+            <a href="mailto:contact@takeadaytrip.com">Email</a>
             <a href="https://twitter.com/takeadaytrip" target="_blank" rel="noopener noreferrer">Twitter</a>
             <a href="https://www.instagram.com/takeadaytrip/" target="_blank" rel="noopener noreferrer">Instagram</a>
             <a href="https://soundcloud.com/takeadaytrip" target="_blank" rel="noopener noreferrer">SoundCloud</a>
@@ -290,21 +268,22 @@
         "albumArtUrl": "https://i.scdn.co/image/ab67616d0000b2733be5fd7d4ac345749ecbd0f4",
         "credits": "Producer",
         "tracklist": [
-            "2 Wolves",
-            "Amor",
-            "Archetype",
-            "Butterflies & Diamond Chains",
-            "Eve ate the apple",
-            "Farewell",
-            "Gabriel",
-            "Genesis",
-            "Girl's Girl",
-            "Homebound",
-            "Loops",
             "Rainbow Child",
+            "Butterflies & Diamond Chains",
             "Rumi",
+            "True Blue",
+            "Loops",
+            "Genesis",
+            "Archetype",
+            "Eve ate the apple",
             "She's Teaching",
-            "True Blue"
+            "2 Wolves",
+            "Gabriel",
+            "Amor",
+            "Girl's Girl",
+            "Baby are you okay?",
+            "Homebound",
+            "Farewell"
         ],
         "spotifyUrl": "https://open.spotify.com/track/6nMjIDxMZgbIFKB0p1p4sb",
         "appleMusicUrl": "https://music.apple.com/us/album/homebound/1818207575?i=1818207685",
@@ -317,7 +296,7 @@
         "type": "Single",
         "releaseDate": "2025-07-11",
         "albumArtUrl": "https://i.scdn.co/image/ab67616d0000b273773d138a4e607efd8c1610cd",
-        "credits": "Producer, Programmer, Guitar, Keyboard, + 2",
+        "credits": "Producer, Programmer, Guitar, Keyboard, Composition",
         "spotifyUrl": "https://open.spotify.com/track/7mSNtdW0ibJwhaoI2y6RAv",
         "appleMusicUrl": "https://music.apple.com/us/album/all-life-long/1522671511?i=1522671512"
     },
@@ -445,7 +424,7 @@
     },
     {
         "title": "A Jaguar's Dream",
-        "artist": "Jordan Adetunji, kwn",
+        "artist": "Jordan Adetunji",
         "type": "Album",
         "releaseDate": "2025-01-23",
         "albumArtUrl": "https://i.scdn.co/image/ab67616d0000b273c5b0e46a5685c7f1c465c0bf",
@@ -750,13 +729,13 @@
         "albumArtUrl": "https://i.scdn.co/image/ab67616d0000b2736ff25c2481eeaf6e7284d461",
         "credits": "Producer",
         "tracklist": [
-            "4 Da Kidz",
+            "Tequila Shots",
             "Another Day",
+            "Sad People",
+            "Rockstar Knights (with Trippie Redd)",
             "Damaged",
             "Lord I Know",
-            "Rockstar Knights (with Trippie Redd)",
-            "Sad People",
-            "Tequila Shots"
+            "4 Da Kidz"
         ],
         "spotifyUrl": "https://open.spotify.com/track/2ZDRkJrKbceJRgLKkuex14",
         "appleMusicUrl": "https://music.apple.com/us/album/man-on-the-moon-iii-the-chosen/1453436937"
@@ -1403,7 +1382,7 @@
                     if (currentlyRenderedCount >= releases.length) {
                         loadMoreContainer.classList.add('hidden');
                     }
-                }, 100);
+                }, 0);
             }
             
             renderIndexBatch();
@@ -1455,7 +1434,7 @@
                                 carouselItem.classList.add('is-expanded');
                                 video.play().catch(e => {});
                             }
-                        }, 1500);
+                        }, 1000);
                     });
                     carouselItem.addEventListener('mouseleave', () => {
                         clearTimeout(actionTimer);
@@ -1524,15 +1503,10 @@
                     gridItem.addEventListener('mouseenter', () => gridItem.classList.add('is-expanded'));
                     gridItem.addEventListener('mouseleave', () => gridItem.classList.remove('is-expanded'));
                 } else {
-                    // --- MOBILE CLICK/TAP LOGIC ---
+                    // --- MOBILE CLICK/TAP LOGIC (STABLE INLINE EXPAND) ---
                     gridItem.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        const isCurrentlyExpanded = gridItem.classList.contains('is-expanded');
-                        // Close any other expanded item before opening a new one
-                        document.querySelectorAll('.grid-item.is-expanded').forEach(el => {
-                           if (el !== gridItem) el.classList.remove('is-expanded');
-                        });
-                        gridItem.classList.toggle('is-expanded', !isCurrentlyExpanded);
+                        gridItem.classList.toggle('is-expanded');
                     });
                 }
                 return gridItem;
@@ -1556,7 +1530,6 @@
                 document.body.style.overflow = isIndexViewActive ? 'hidden' : 'auto';
             }
             
-            // This listener handles closing expanded grid items when clicking outside
             document.addEventListener('click', (event) => {
                 if (isIndexViewActive && !event.target.closest('.grid-item') && !event.target.closest('.view-controls')) {
                     document.querySelectorAll('.grid-item.is-expanded').forEach(el => el.classList.remove('is-expanded'));
